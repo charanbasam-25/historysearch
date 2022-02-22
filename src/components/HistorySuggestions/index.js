@@ -11,11 +11,7 @@ class HistorySuggestions extends Component {
     this.setState({searchInput: event.target.value})
   }
 
-  noHistoryCard = () => (
-    <div className="no-history-card">
-      <p>There is no history to show</p>
-    </div>
-  )
+  
 
   deleteHistoryItem = id => {
     const {historyList} = this.state
@@ -23,13 +19,7 @@ class HistorySuggestions extends Component {
     this.setState({historyList: [...newList]})
   }
 
-  historyItems = searchedHistoryList => (
-    <ul className="history-items-container">
-      {searchedHistoryList.map(eachHistory => (
-        <SuggestionItem key={eachHistory.id} eachHistory={eachHistory} />
-      ))}
-    </ul>
-  )
+  
 
   render() {
     const {searchInput, historyList} = this.state
@@ -37,11 +27,22 @@ class HistorySuggestions extends Component {
     const searchedHistoryList = historyList.filter(eachHistory =>
       eachHistory.title.toLowerCase().includes(searchInput.toLowerCase()),
     )
-    const searchResult =
-      searchedHistoryList.length === 0
-        ? this.noHistoryCard
-        : this.historyItems(searchedHistoryList)
-
+      let searchResult
+    if (searchedHistoryList.length === 0) {
+      searchResult = (
+        <div className="no-history-card">
+          <p>There is no history to show</p>
+        </div>
+      )
+    } else {
+      searchResult = (
+        <ul className="history-items-container">
+          {searchedHistoryList.map(eachHistory => (
+            <SuggestionItem key={eachHistory.id} eachHistory={eachHistory} />
+          ))}
+        </ul>
+      )
+    }
     return (
       <div className="bg-container">
         <div className="search-input-container">
